@@ -1,0 +1,45 @@
+{
+  "author": "Valentin Mari <valen.mari@ubykuo.com>",
+  "name": "ubykuo-ci",
+  "keywords": [
+    "node",
+    "deploy",
+    "ci",
+    "webhook",
+    "bitbucket",
+    "github"
+  ],
+  "description": "Lightweight Node.JS deployer to be used with Bitbucket or Github POST service hooks",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/ubykuo/ubykuo-ci"
+  },
+  "node_deb": {
+    "version": "0.1.0-beta",
+    "dependencies": "openssl, git, openssh-client",
+    "entrypoints": {
+      "cli": "ubykuo-ci",
+      "daemon": "daemon.js"
+    },
+    "templates": {
+      "postinst": "templates/postinst.sh"
+    }
+  },
+  "dependencies": {
+    "commander": "^2.12.2",
+    "dotenv": "^4.0.0",
+    "git-url-parse": "^7.0.1",
+    "jsonschema": "^1.2.0",
+    "pem": "^1.12.3",
+    "queue": "^4.4.2",
+    "request": "^2.83.0",
+    "winston": "^3.0.0-rc1"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ubykuo/ubykuo-ci/raw/master/LICENSE"
+    }
+  ],
+  "license": "MIT"
+}

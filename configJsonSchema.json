@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+
+  "properties": {
+    "slack": {
+      "$ref": "#/definitions/slack"
+    },
+    "webhook": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "default": "POST"
+        },
+        "path": {
+          "type": "string",
+          "default": "/webhook"
+        }
+      }
+    },
+    "port": {
+      "type": "integer",
+      "default": 13316
+    },
+    "ssl": {
+      "type": "boolean",
+      "default": true
+    },
+    "projects": {
+      "$id": "/properties/projects",
+      "type": "array",
+      "items": {
+        "$id": "/properties/projects/items",
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "examples": [
+              "my-awesome-project"
+            ]
+          },
+          "repo": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "examples": [
+                  "git@github.com:user/repo.git"
+                ]
+              },
+              "branch": {
+                "type": "string",
+                "examples": [
+                  "development",
+                  "master",
+                  "production"
+                ]
+              }
+            },
+            "required": [
+              "url",
+              "branch"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "buildScript": {
+            "type": "string",
+            "default": "build.sh"
+          },
+          "slack": {
+            "$ref": "#/definitions/slack"
+          }
+        },
+        "required": [
+          "key",
+          "repo"
+        ]
+      }
+    }
+  },
+
+  "definitions": {
+    "slack": {
+      "type": "object",
+      "properties": {
+        "defaults": {
+          "type": "object",
+          "properties": {
+            "webhookUrl": {
+              "type": "string",
+              "examples": [
+                "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+              ]
+            },
+            "channel": {
+              "type": "string",
+              "examples": [
+                "#builds"
+              ]
+            },
+            "username": {
+              "type": "string",
+              "examples": [
+                "ubykuo-ci"
+              ]
+            },
+            "icon": {
+              "type": "string",
+              "examples": [
+                ":computer:"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

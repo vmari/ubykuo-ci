@@ -1,7 +1,6 @@
 ubykuo-ci
 =========
-Lighweight (~60MB RAM footprint) continuos integration service.
-A free and open source tool built as an alternative to monstruos Jenkins memory usage when working on resource-constrained environments.
+Lighweight (~60MB RAM footprint) continuos integration service. A free and open source tool built as an alternative to monstruos Jenkins memory usage when working on resource-constrained environments.
 
 
 Premises
@@ -12,27 +11,69 @@ Premises
  - Install & run: install as a .deb package, minimal configuration and run as a service.
  - Webhook first: prioritize Webhook usage over cron.
  - No master-slave architecture
+ - GIT repositories & multibranch support
+ - Slack notifications
+
+Usage
+=====
+Create build.sh script in your project
+Create .env config file in your project [optional] (will be injected in build script)
+
+Create config.json file in daemon config (/etc/ubykuo-ci/config.json)
+
+```json
+{
+  "slack": {
+    "webhookUrl": "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX",
+    "channel": "#builds",
+    "username": "ubykuo-ci",
+    "icon": ":+1:"
+  },
+  "webhook": {
+    "method": "POST",
+    "path": "/myCustomWebHookURI"
+  },
+  "port": 6666,
+  "ssl": true,
+  "projects": [
+    {
+      "key": "my-project-development",
+      "repo": {
+        "url": "git@github.com:ubykuo/ubykuo-ci.git",
+        "branch": "dev"
+      },
+      "buildScript": "build-dev.sh"
+    },
+    {
+      "key": "my-project-production",
+      "repo": {
+        "url": "git@github.com:ubykuo/ubykuo-ci.git",
+        "branch": "master"
+      },
+      "buildScript": "build-master.sh"
+    }
+  ]
+}
+
+```
 
 
-Requirements for building deb package
+Projects root: /var/lib/ubykuo-ci/workspaces
+
+Allow ssh certificate login in GitHub / BitBucket
+=================================================
+After config, a new certificate will be created in /home/ubykuo-ci/.ssh/id_rsa
+
+Requirements for build deb package
 ==================================
- ```
- $ sudo apt install dpkg fakeroot jq
- $ npm install -g node-deb
- $ make build
- ```
-
+ - sudo apt install dpkg fakeroot jq
+ - npm install -g node-deb
+ - make build
 
 CLI Commands
 ============
-    init (default)
-    list ls
-    remove rm
-    
-    
-    
-Roadmap
-===
-- HTTPS with let's encrypt
-- Easier setup with interactive configuration
+CLI support is not available yet. But if you want you can help us, we'd love to receive your help.
 
+n2h
+===
+HTTPS with let's encrypt

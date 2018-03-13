@@ -322,6 +322,21 @@ function buildProject(project) {
       }
     }
 
+    //Git environment variables
+    /*fullEnv["GIT_COMMIT"]
+    fullEnv["GIT_BRANCH"]
+    fullEnv["GIT_LOCAL_BRANCH"]
+    fullEnv["GIT_PREVIOUS_COMMIT"]
+    fullEnv["GIT_PREVIOUS_SUCCESSFUL_COMMIT"]
+    fullEnv["GIT_URL"]
+    fullEnv["GIT_URL_N"]
+    fullEnv["GIT_AUTHOR_NAME"]
+    fullEnv["GIT_COMMITTER_NAME"]
+    fullEnv["GIT_AUTHOR_EMAIL"]
+    fullEnv["GIT_COMMITTER_EMAIL"]*/
+
+    fullEnv["PROJECT_PATH"] = path;
+
     sendNotification(project, project.key + ' started');
 
     var build = childprocess.spawn('/bin/sh', ['-xe', project.buildScript], {

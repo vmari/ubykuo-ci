@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 var PACKAGE_NAME = 'ubykuo-ci';
-var DATA_DIR = '/var/lib/' + PACKAGE_NAME;
-var LOG_DIR = '/var/log/' + PACKAGE_NAME;
-var CONFIG_DIR = '/etc/' + PACKAGE_NAME;
+var DATA_DIR = './data';
+var LOG_DIR = './logs';
+var CONFIG_DIR = './conf';
 
 var fs = require('fs'),
   childprocess = require('child_process'),
@@ -206,7 +206,7 @@ function configRepository(project) {
   logger.info('Project need initialization');
   childprocess.execSync("mkdir -p '" + path + "'");
   childprocess.execSync("cd '" + path + "' " +
-    " && GIT_SSH_COMMAND='ssh -i " + DATA_DIR + "/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone " + project.repo.url + ' . ' +
+    " && GIT_SSH_COMMAND='ssh -i ../.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone " + project.repo.url + ' . ' +
     " && git config core.sshCommand 'ssh -i " + DATA_DIR + "/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'" +
     " && git checkout " + project.repo.branch);
 }
@@ -225,10 +225,12 @@ function getProjectPath(project) {
  * Updates the source files from the configured repository.
  */
 function updateRepository(project) {
-  logger.info('Checking if update is needed');
+  logger.info('Checking if update is needed in project: ' + project.key);
   configRepository(project);
   var path = getProjectPath(project);
   childprocess.exec("cd '" + path + "' && GIT_SSH_COMMAND='ssh -i " + DATA_DIR + "/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git fetch", function (err, stdout, stderr) {
+if (err) { console.log('Error updating project', err, stdout, stderr); return;}
+    logger.info(__dirname);
     childprocess.exec("cd '" + path + "' && /bin/sh -xe '" + __dirname + "/scripts/checkUpdate.sh'", function (ccc) {
       logger.info('Exit code of check wass ' + ccc);
       if (ccc === null) {

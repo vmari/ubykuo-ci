@@ -228,7 +228,7 @@ function updateRepository(project) {
   logger.info('Checking if update is needed in project: ' + project.key);
   configRepository(project);
   var path = getProjectPath(project);
-  childprocess.exec("cd '" + path + "' && GIT_SSH_COMMAND='ssh -i " + DATA_DIR + "/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git fetch", function (err, stdout, stderr) {
+  childprocess.exec("cd '" + path + "' && GIT_SSH_COMMAND='ssh -i " + __dirname + "/data/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git fetch", function (err, stdout, stderr) {
 if (err) { console.log('Error updating project', err, stdout, stderr); return;}
     logger.info(__dirname);
     childprocess.exec("cd '" + path + "' && /bin/sh -xe '" + __dirname + "/scripts/checkUpdate.sh'", function (ccc) {
@@ -238,7 +238,7 @@ if (err) { console.log('Error updating project', err, stdout, stderr); return;}
       } else if (ccc.code === 1) {
         logger.info('Updating repository');
         childprocess.exec("cd '" + path + "' " +
-          " && GIT_SSH_COMMAND='ssh -i " + DATA_DIR + "/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git pull origin " + project.repo.branch, function (err, stdout, stderr) {
+          " && GIT_SSH_COMMAND='ssh -i " + __dirname + "/data/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git pull origin " + project.repo.branch, function (err, stdout, stderr) {
           if (err) {
             console.log('Error updating project', err, stdout, stderr);
           } else {

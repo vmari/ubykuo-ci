@@ -64,7 +64,7 @@ Allow ssh certificate login in GitHub / BitBucket
 =================================================
 After config, a new certificate will be created in /home/ubykuo-ci/.ssh/id_rsa
 
-Requirements for build deb package
+Requirements for building the deb package
 ==================================
  - sudo apt install dpkg fakeroot jq
  - npm install -g node-deb
@@ -73,6 +73,14 @@ Requirements for build deb package
 CLI Commands
 ============
 CLI support is not available yet. But if you want you can help us, we'd love to receive your help.
+
+Managing service on Amazon AMI
+=================================================
+On Amazon AMI instances, ubykuo-ci uses foreverjs to run the daemon. In case of needing to restart the service you should use the forever command.
+```bash
+$ cd installation/path
+$ forever restart daemon.js
+```
 
 n2h
 ===
